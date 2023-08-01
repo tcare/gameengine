@@ -1,15 +1,29 @@
-#include <memory>
-
+#include "pch.h"
 #include "GameEngine.h"
+
+#include <spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/sinks/basic_file_sink.h>
+
 #include "Scenes/TestScene.h"
 
-void GameEngine::Run() {
+GameEngine::GameEngine() {
+    InitLogging();
+}
+
+GameEngine::~GameEngine() {
+    SPDLOG_LOGGER_INFO(logger, ("GameEngine shutdown. Cleaning up...");
+    spdlog::shutdown();
+}
+
+// Main loop of the game engine
+void GameEngine::Run()
+{
     Init();
 
     running = true;
 
     while (running) {
-        
+        SPDLOG_LOGGER_TRACE(logger, "Begin frame {}", currentFrame);
 
         if (!paused) {
             Update();
@@ -18,14 +32,15 @@ void GameEngine::Run() {
 
         // Render
         Render();
-        
 
+        SPDLOG_LOGGER_TRACE(logger, "End frame {}", currentFrame);
         currentFrame++;
     }
 }
 
 void GameEngine::Quit() {
     running = false;
+    SPDLOG_LOGGER_INFO(logger, "Shutting down GameEngine next frame");
 }
 
 void GameEngine::Update()
@@ -38,6 +53,7 @@ void GameEngine::ChangeScene(std::string name, std::shared_ptr<Scene> scene) {
     currentScene = scene;
 }
 
+// Process events from SFML. Required for window events and input.
 void GameEngine::ProcessEvents() {
     sf::Event event;
     while (window.pollEvent(event)) {
@@ -62,14 +78,41 @@ void GameEngine::ProcessEvents() {
     }
 }
 
-void GameEngine::Init()
-{
+void GameEngine::Init() {
+    // Init debugging
+    SPDLOG_LOGGER_INFO(logger, "Initializing GameEngine");
     window.create(sf::VideoMode(800, 600), "Game Engine");
     window.setFramerateLimit(frameRate);
 
     auto initscene = std::make_shared<TestScene>(*this, entityManager);
     
     ChangeScene("test", initscene);
+}
+
+// Initialize global spdlog logger
+void GameEngine::InitLogging() {
+    // Create stdout console logger
+    auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+    console_sink->set_level(spdlog::level::debug);
+    console_sink->set_pattern("[%^%l%$] %v");
+
+    // Create file logger
+    auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("game.log", true);
+    file_sink->set_level(spdlog::level::debug);
+    file_sink->set_pattern("[%^%l%$ %s:%#] %v");
+
+    // Create combined logger
+    using sink_ptr = std::shared_ptr<spdlog::sinks::sink>;
+    using sinks_init_list = std::initializer_list<sink_ptr>;
+    sinks_init_list multi_sinks = {console_sink, file_sink};
+    logger = std::make_shared<spdlog::logger>("multi_sink", multi_sinks);
+    logger->set_level(spdlog::level::trace);
+
+    // Enable auto flush and become default logger
+    spdlog::flush_every(std::chrono::seconds(1));
+    spdlog::set_default_logger(logger);
+
+    SPDLOG_LOGGER_INFO(logger, "Logging initialized");
 }
 
 void GameEngine::Render() {

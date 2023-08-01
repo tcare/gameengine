@@ -1,8 +1,8 @@
 #pragma once
 
-#include <stack>
+#include "pch.h"
 
-#include <SFML/Graphics.hpp>
+#include <stack>
 
 #include "CommonDefines.h"
 #include "Assets.h"
@@ -14,7 +14,8 @@ class GameEngine {
     // Handles loading and unloading of scenes
     
 public:
-    GameEngine() {}
+    GameEngine();
+    ~GameEngine();
 
     // Runtime flow control
     void Run();
@@ -29,6 +30,7 @@ public:
     
 private:
     void Init();
+    void InitLogging();
     void Render();
     void Update();
 
@@ -45,4 +47,6 @@ private:
     bool paused = false;
     FrameRate frameRate = 60;
     FrameCount currentFrame = 0;
+
+    std::shared_ptr<spdlog::logger> logger;
 };

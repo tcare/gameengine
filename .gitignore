@@ -165,3 +165,4 @@ zsdoc/data
 # End of https://www.toptal.com/developers/gitignore/api/git,zsh,cmake,linux,macos,windows,visualstudiocode
 
 build/
+*.log
