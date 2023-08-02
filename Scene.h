@@ -2,10 +2,10 @@
 
 #include "CommonDefines.h"
 #include "Action.h"
+#include "EntityManager.h"
 
 // Forward declarations
 class GameEngine;
-class EntityManager;
 namespace sf {
     class RenderWindow;
 };
@@ -13,8 +13,8 @@ namespace sf {
  // Contains all the entities and actions for a scene
 class Scene {
 public:
-    Scene(GameEngine& engine, EntityManager& entityManager)
-    : engine(engine), entityManager(entityManager) {}
+    Scene(GameEngine& engine)
+    : engine(engine) {}
 
     // Update a single frame
     virtual void Update() = 0;
@@ -30,7 +30,8 @@ protected:
     bool paused = false;
     ActionMap actionMap;
 
+    EntityManager entityManager;
+
     // Handy references
     GameEngine& engine;
-    EntityManager& entityManager;
 };

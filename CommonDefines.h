@@ -4,3 +4,5 @@
 
 typedef uint64_t FrameCount;
 typedef uint16_t FrameRate;
+
+typedef uint64_t EntityId;

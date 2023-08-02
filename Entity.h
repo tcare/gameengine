@@ -1,18 +1,29 @@
 #pragma once
 
 #include <string>
-
 #include "Components.h"
+#include "CommonDefines.h"
 
 class Entity {
 public:
-    Entity(uint32_t id, std::string tag) : id(id), tag(tag) {}
+    Entity(EntityId id, std::string tag) : id(id), tag(tag) {
+    }
 
-    void AddComponent(Component& component);
-    void RemoveComponent(Component& component);
-    void HasComponent(Component& component);
+    void Update();
+    
+    // An inactive entity will be removed on the next frame.
+    void SetInactive() { active = false; }
+
+    const EntityId GetId() const { return id; }
+    const std::string& GetTag() const { return tag; }
+    bool IsActive() const { return active; }
+
+    // TODO(tcare): Move these to a component manager
+    std::shared_ptr<AnimationComponent> animation;
+    std::shared_ptr<TransformComponent> transform;
+    std::shared_ptr<SpriteComponent> sprite;
 private:
-    uint32_t id;
-    std::string tag;
-    std::vector<Component> components;
+    const EntityId id;
+    const std::string tag;
+    bool active = true;
 };

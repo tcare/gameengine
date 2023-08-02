@@ -8,7 +8,7 @@
 
 class TestScene : public Scene {
 public:
-    TestScene(GameEngine& engine, EntityManager& entityManager);
+    TestScene(GameEngine& engine);
 
     void Update() override;
     void HandleAction(Action& action) override;
@@ -16,4 +16,6 @@ public:
 
     sf::Font font;
     sf::Text text;
+    sf::Texture texture;
+    sf::Sprite sprite;
 };

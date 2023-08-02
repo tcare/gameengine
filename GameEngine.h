@@ -5,7 +5,6 @@
 #include <stack>
 
 #include "CommonDefines.h"
-#include "Assets.h"
 #include "EntityManager.h"
 #include "Scene.h"
 
@@ -38,11 +37,7 @@ private:
 
     std::shared_ptr<Scene> currentScene;
     std::map<std::string, std::shared_ptr<Scene>> sceneMap;
-
-    Assets assets;
-
-    EntityManager entityManager;
-
+    
     bool running = false;
     bool paused = false;
     FrameRate frameRate = 60;

@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.26)
 project(game VERSION 1.0)
 include(FetchContent)
+
 set(BUILD_SHARED_LIBS OFF)
 
 #
@@ -26,10 +27,17 @@ FetchContent_MakeAvailable(spdlog)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
+#set(CMAKE_INTERPROCEDURAL_OPTIMIZATION true)
+
 add_executable(game
-    main.cpp
+    Animation.cpp
+    AssetManager.cpp
+    EntityManager.cpp
     GameEngine.cpp
     Scene.cpp
+
+    main.cpp
+
     Scenes/TestScene.cpp
 )
 target_link_libraries(game

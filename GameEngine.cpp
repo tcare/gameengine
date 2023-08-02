@@ -11,7 +11,7 @@ GameEngine::GameEngine() {
 }
 
 GameEngine::~GameEngine() {
-    SPDLOG_LOGGER_INFO(logger, ("GameEngine shutdown. Cleaning up...");
+    SPDLOG_LOGGER_INFO(logger, "GameEngine shutdown. Cleaning up...");
     spdlog::shutdown();
 }
 
@@ -30,7 +30,6 @@ void GameEngine::Run()
             ProcessEvents();
         }
 
-        // Render
         Render();
 
         SPDLOG_LOGGER_TRACE(logger, "End frame {}", currentFrame);
@@ -84,7 +83,7 @@ void GameEngine::Init() {
     window.create(sf::VideoMode(800, 600), "Game Engine");
     window.setFramerateLimit(frameRate);
 
-    auto initscene = std::make_shared<TestScene>(*this, entityManager);
+    auto initscene = std::make_shared<TestScene>(*this);
     
     ChangeScene("test", initscene);
 }
@@ -93,12 +92,12 @@ void GameEngine::Init() {
 void GameEngine::InitLogging() {
     // Create stdout console logger
     auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-    console_sink->set_level(spdlog::level::debug);
+    console_sink->set_level(spdlog::level::trace);
     console_sink->set_pattern("[%^%l%$] %v");
 
     // Create file logger
     auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("game.log", true);
-    file_sink->set_level(spdlog::level::debug);
+    file_sink->set_level(spdlog::level::trace);
     file_sink->set_pattern("[%^%l%$ %s:%#] %v");
 
     // Create combined logger
