@@ -3,16 +3,24 @@
 class Animation {
 public:
     Animation(const sf::Texture& texture,
-              sf::Sprite& sprite,
               const sf::Vector2u spriteSize,
+              FrameCount animationSpeed,
               const sf::Vector2u frameZeroOffset,
               const FrameCount animLength);
 
     // Called on every game frame to potentially update the animation
     void Update();
 
+    void SetAnimationSpeed(FrameCount animationSpeed) {
+        this->animationSpeed = animationSpeed;
+    }
+
+    [[nodiscard]] sf::Sprite& GetSprite() { return sprite; }
+
 private:
     const sf::IntRect GetSpriteRect();
+
+    sf::Vector2u textureSize;
     // Which frame of the animation is currently being displayed
     FrameCount currentFrame = 0;
 
@@ -20,20 +28,17 @@ private:
     FrameCount runningFrames = 0;
 
     // The number of frames to wait before switching to the next frame
-    FrameCount animationSpeed = 10;
+    FrameCount animationSpeed;
 
     // The (x,y) offset of the first frame of the animation (in frames)
-    const sf::Vector2u frameZeroOffset;
+    sf::Vector2u frameZeroOffset;
 
     // The size of each frame of the animation (in pixels)
-    const sf::Vector2u spriteSize;
+    sf::Vector2u spriteSize;
 
     // The length of the animation (in frames)
-    const FrameCount animLength;
+    FrameCount animLength;
 
-    // Reference to the texture containing the animation frames
-    const sf::Texture& texture;
-
-    // Reference to the sprite which is being animated
-    sf::Sprite& sprite;
+    // Sprite which is being animated
+    sf::Sprite sprite;
 };

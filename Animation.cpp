@@ -3,15 +3,16 @@
 #include <SFML/Graphics/Rect.hpp>
 
 Animation::Animation(const sf::Texture &texture,
-                     sf::Sprite &sprite,
                      const sf::Vector2u spriteSize,
+                     FrameCount animationSpeed,
                      const sf::Vector2u frameZeroOffset,
                      const FrameCount animLength)
-    : texture(texture),
-    sprite(sprite),
-    spriteSize(spriteSize),
+    : textureSize(texture.getSize()),
+    animationSpeed(animationSpeed),
     frameZeroOffset(frameZeroOffset),
-    animLength(animLength) {
+    spriteSize(spriteSize),
+    animLength(animLength)
+    {
     ASSERT(animLength > 1, "Why use an animation if there's only one frame?");
     sprite.setTexture(texture);
     sprite.setTextureRect(GetSpriteRect());
@@ -30,9 +31,6 @@ void Animation::Update() {
 }
 
 const sf::IntRect Animation::GetSpriteRect() {
-    // Get width and height of the texture
-    auto textureSize = texture.getSize();
-
     // Calculate current frame offset
     auto framesPerRow = textureSize.x / spriteSize.x;
     auto framesPerColumn = textureSize.y / spriteSize.y;

@@ -1,10 +1,9 @@
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "GameEngine.h"
 
 int main()
 {
-    GameEngine game;
-    game.Run();
+    GameEngine::Instance().Run();
     return EXIT_SUCCESS;
 }

@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-typedef uint64_t FrameCount;
-typedef uint16_t FrameRate;
+using FrameCount = uint64_t;
+using FrameRate = uint16_t;
 
-typedef uint64_t EntityId;
+using EntityId = uint64_t;

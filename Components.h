@@ -4,26 +4,47 @@
 #include "Animation.h"
 
 // Base class for all components which can be attached to an entity
-struct Component {
+class Component {
+    [[nodiscard]] bool Has() const { return has; }
     bool has = false;
 };
 
-struct SpriteComponent : public Component {
-    SpriteComponent(sf::Texture& texture) : texture(texture) {}
+class SpriteComponent : public Component {
+public:
+    SpriteComponent(sf::Texture& texture) : sprite(texture) {}
+    [[nodiscard]] sf::Sprite& GetSprite() { return sprite; }
+private:
     sf::Sprite sprite;
-    sf::Texture& texture;
 };
 
-struct TransformComponent : public Component {
+class TransformComponent : public Component {
+public:
+    TransformComponent(sf::Vector2f position,
+                       sf::Vector2f scale,
+                       sf::Vector2f velocity,
+                       double rotation)
+    : position(position),
+      scale(scale),
+      velocity(velocity),
+      rotation(rotation) {}
+
+    [[nodiscard]] sf::Vector2f GetPosition() const { return position; }
+    [[nodiscard]] sf::Vector2f GetScale() const { return scale; }
+    [[nodiscard]] sf::Vector2f GetVelocity() const { return velocity; }
+    [[nodiscard]] double GetRotation() const { return rotation; }
+private:
     sf::Vector2f position;
     sf::Vector2f scale;
     sf::Vector2f velocity;
     double rotation;
 };
 
-struct AnimationComponent : public Component {
-    AnimationComponent(Animation& animation) : animation(animation) {}
+class AnimationComponent : public Component {
+public:
+    AnimationComponent(Animation animation) : animation(std::move(animation)) {}
+    [[nodiscard]] Animation& GetAnimation() { return animation; }
+private:
     Animation animation;
 };
 
-typedef std::tuple<TransformComponent, AnimationComponent> ComponentTuple;
+using ComponentTuple = std::tuple<TransformComponent, AnimationComponent>;

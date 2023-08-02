@@ -4,9 +4,9 @@
 
 #include "Entity.h"
 
-typedef std::shared_ptr<Entity> EntityPtr;
-typedef std::vector<EntityPtr> EntityVector;
-typedef std::map<std::string, EntityVector> EntityMap;
+using EntityPtr = std::shared_ptr<Entity>;
+using EntityVector = std::vector<EntityPtr>;
+using EntityMap = std::map<std::string, EntityVector>;
 
 class EntityManager {
 public:

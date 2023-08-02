@@ -5,7 +5,7 @@ void EntityManager::Update() {
     if (!entitiesToAdd.empty()) {
         SPDLOG_TRACE("Adding {} queued entities", entitiesToAdd.size());
     }
-    for (auto entity : entitiesToAdd) {
+    for (auto const& entity : entitiesToAdd) {
         entities.push_back(entity);
         entitiesByTag[entity->GetTag()].push_back(entity);
     }

@@ -8,12 +8,13 @@
 
 class TestScene : public Scene {
 public:
-    TestScene(GameEngine& engine);
+    TestScene();
 
     void Update() override;
     void HandleAction(Action& action) override;
     void Render(sf::RenderWindow &window) override;
 
+private:
     sf::Font font;
     sf::Text text;
     sf::Texture texture;

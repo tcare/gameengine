@@ -1,7 +1,5 @@
 #pragma once
 
-#include "pch.h"
-
 #include <stack>
 
 #include "CommonDefines.h"
@@ -13,8 +11,15 @@ class GameEngine {
     // Handles loading and unloading of scenes
     
 public:
-    GameEngine();
-    ~GameEngine();
+    // Singleton
+    GameEngine(GameEngine const&) = delete;
+    void operator=(GameEngine const&) = delete;
+    GameEngine(GameEngine&&) = delete;
+    void operator=(GameEngine&&) = delete;
+    static GameEngine& Instance() {
+        static GameEngine instance;
+        return instance;
+    }
 
     // Runtime flow control
     void Run();
@@ -26,7 +31,11 @@ public:
     // Input control
     void ProcessInput();
     void ProcessEvents();
-    
+
+protected:
+    GameEngine();
+    ~GameEngine();
+
 private:
     void Init();
     void InitLogging();
@@ -40,7 +49,7 @@ private:
     
     bool running = false;
     bool paused = false;
-    FrameRate frameRate = 60;
+    FrameRate frameRate = 60; //NOLINT(cppcoreguidelines-avoid-magic-numbers)
     FrameCount currentFrame = 0;
 
     std::shared_ptr<spdlog::logger> logger;

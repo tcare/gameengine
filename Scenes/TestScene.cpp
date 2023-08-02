@@ -5,8 +5,9 @@
 
 #include "../GameEngine.h"
 
-TestScene::TestScene(GameEngine &engine)
-: Scene(engine) {
+TestScene::TestScene()
+: Scene() {
+    //NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
     font.loadFromFile("Assets/Fonts/NintendBoldRM8E.ttf");
     text.setFont(font);
     text.setCharacterSize(50);
@@ -20,34 +21,35 @@ TestScene::TestScene(GameEngine &engine)
     sprite.setPosition(300, 300);
     sprite.setTextureRect(sf::IntRect(96,0,96,96));
 
-    EntityPtr animationEntity = entityManager.AddEntity();
+    const EntityPtr animationEntity = GetEntityManager().AddEntity();
     animationEntity->sprite = std::make_shared<SpriteComponent>(texture);
-    animationEntity->sprite->sprite.setPosition(500, 500);
-    Animation animation(
+    const Animation animation(
         texture,
-        animationEntity->sprite->sprite,
         sf::Vector2u(96, 96),
+        10,
         sf::Vector2u(0, 1),
         4);
     animationEntity->animation = std::make_shared<AnimationComponent>(animation);
+    animationEntity->animation->GetAnimation().GetSprite().setPosition(500, 500);
 
     RegisterAction(sf::Keyboard::Scan::Escape, Action::Name::QUIT);
+    //NOLINTEND(cppcoreguidelines-avoid-magic-numbers)
 }
 
 void TestScene::Update() {
-    entityManager.Update();
+    GetEntityManager().Update();
 
-    for (auto entity : entityManager.GetAllEntities()) {
+    for (auto const& entity : GetEntityManager().GetAllEntities()) {
         if (entity->animation) {
-            entity->animation->animation.Update();
+            entity->animation->GetAnimation().Update();
         }
     }
 }
 
 void TestScene::HandleAction(Action &action) {
-    switch (action.name) {
+    switch (action.GetName()) {
         case Action::Name::QUIT:
-            engine.Quit();
+            GameEngine::Instance().Quit();
             break;
         default:
             break;
@@ -58,9 +60,9 @@ void TestScene::Render(sf::RenderWindow &window) {
     window.draw(text);
     window.draw(sprite);
 
-    for (auto entity : entityManager.GetAllEntities()) {
-        if (entity->sprite) {
-            window.draw(entity->sprite->sprite);
+    for (auto const& entity : GetEntityManager().GetAllEntities()) {
+        if (entity->animation) {
+            window.draw(entity->animation->GetAnimation().GetSprite());
         }
     }
 }
