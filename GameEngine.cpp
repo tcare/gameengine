@@ -47,7 +47,7 @@ void GameEngine::Update()
     currentScene->Update();
 }
 
-void GameEngine::ChangeScene(std::string name, std::shared_ptr<Scene> scene) {
+void GameEngine::ChangeScene(const std::string& name, const std::shared_ptr<Scene>& scene) {
     sceneMap[name] = scene;
     currentScene = scene;
 }
@@ -56,7 +56,7 @@ void GameEngine::ChangeScene(std::string name, std::shared_ptr<Scene> scene) {
 void GameEngine::ProcessEvents() {
     //NOLINTBEGIN(cppcoreguidelines-pro-type-union-access)
     // Events use unions, so disable the warning for this block
-    sf::Event event;
+    sf::Event event{};
     while (window.pollEvent(event)) {
         switch (event.type) {
             case sf::Event::KeyPressed:

@@ -3,9 +3,9 @@
 #include <SFML/Graphics/Rect.hpp>
 
 Animation::Animation(const sf::Texture &texture,
-                     const sf::Vector2u spriteSize,
+                     const sf::Vector2i spriteSize,
                      FrameCount animationSpeed,
-                     const sf::Vector2u frameZeroOffset,
+                     const sf::Vector2i frameZeroOffset,
                      const FrameCount animLength)
     : textureSize(texture.getSize()),
     animationSpeed(animationSpeed),
@@ -22,7 +22,7 @@ void Animation::Update() {
     runningFrames++;
 
     // If we are advancing to the next frame of animation, update the sprite
-    FrameCount newCurrentFrame = runningFrames / animationSpeed % animLength;
+    AnimationFrameCount newCurrentFrame = runningFrames / animationSpeed % animLength;
     if (newCurrentFrame != currentFrame) {
         SPDLOG_DEBUG("Updating animation frame from {} to {}", currentFrame, newCurrentFrame);
         currentFrame = newCurrentFrame;
@@ -43,6 +43,6 @@ const sf::IntRect Animation::GetSpriteRect() {
 
     SPDLOG_TRACE("New animation frame: ({}, {}) pixels: ({}, {})", newRow, newColumn, topLeftX, topLeftY);
 
-    // Return the rectangle
+    // Return the rectangle.
     return sf::IntRect(topLeftX, topLeftY, spriteSize.x, spriteSize.y);
 }

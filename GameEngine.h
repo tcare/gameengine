@@ -26,7 +26,7 @@ public:
     void Quit();
 
     // Scene control
-    void ChangeScene(std::string name, std::shared_ptr<Scene> scene);
+    void ChangeScene(const std::string& name, const std::shared_ptr<Scene>& scene);
 
     // Input control
     void ProcessInput();

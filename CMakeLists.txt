@@ -10,6 +10,7 @@ set(BUILD_SHARED_LIBS OFF)
 
 # We have no control over deprecation warnings in external libraries.
 set(CMAKE_WARN_DEPRECATED OFF CACHE BOOL "" FORCE)
+add_compile_options(-Wno-deprecated-declarations)
 
 # SFML - Rendering Library
 FetchContent_Declare(
@@ -36,6 +37,17 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(assert)
 
+# nlohmann/json - JSON Library for Tiled maps
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+FetchContent_Declare(
+    nlohmann_json
+    GIT_REPOSITORY https://github.com/nlohmann/json.git
+    GIT_TAG v3.11.2
+)
+FetchContent_MakeAvailable(nlohmann_json)
+
+# Turn back on deprecation warnings for our code
+set(CMAKE_WARN_DEPRECATED ON CACHE BOOL "" FORCE)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
@@ -73,6 +85,7 @@ target_link_libraries(game
     sfml-audio
     spdlog::spdlog_header_only
     assert
+    nlohmann_json::nlohmann_json
 )
 
 # Enable PCH for expensive headers

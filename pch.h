@@ -6,5 +6,10 @@
 // TODO(tcare): change in CMake for release build
 #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE 
 #include <spdlog/spdlog.h>
+
 #include <SFML/Graphics.hpp>
+
 #include <assert.hpp>
+
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;

@@ -1,4 +1,4 @@
 ---
 Checks:          'bugprone-*,-bugprone-easily-swappable-parameters,clang-analyzer-*,cert-*,cppcoreguidelines-*,misc-*,modernize-*,-modernize-use-trailing-return-type,performance-*,readibility-*'
-HeaderFilterRegex: '.'
+HeaderFilterRegex: '^((?!/_deps_/|/build/).)*$'
 ...

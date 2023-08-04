@@ -27,7 +27,7 @@ const EntityVector& EntityManager::GetAllEntities() {
 }
 
 void EntityManager::RemoveDeadEntities() {
-    std::erase_if(entities, [](EntityPtr entity) {
+    std::erase_if(entities, [](const EntityPtr& entity) {
         return !entity->IsActive();
     });
 }

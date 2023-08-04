@@ -25,9 +25,9 @@ TestScene::TestScene()
     animationEntity->sprite = std::make_shared<SpriteComponent>(texture);
     const Animation animation(
         texture,
-        sf::Vector2u(96, 96),
+        sf::Vector2i(96, 96),
         10,
-        sf::Vector2u(0, 1),
+        sf::Vector2i(0, 1),
         4);
     animationEntity->animation = std::make_shared<AnimationComponent>(animation);
     animationEntity->animation->GetAnimation().GetSprite().setPosition(500, 500);
