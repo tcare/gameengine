@@ -4,6 +4,8 @@ include(FetchContent)
 
 set(BUILD_SHARED_LIBS OFF)
 
+set(LIBCXX_HARDENING_MODE debug)
+
 #
 # External libraries
 #
@@ -61,18 +63,22 @@ add_compile_options(
     -pedantic
 )
 
-set(CMAKE_CXX_CLANG_TIDY /opt/homebrew/opt/llvm/bin/clang-tidy
-    --config-file=${CMAKE_SOURCE_DIR}/.clang-tidy
-)
+#add_compile_options(-fsanitize=address)
+#add_link_options(-fsanitize=address)
+
+#set(CMAKE_CXX_CLANG_TIDY /opt/homebrew/opt/llvm/bin/clang-tidy
+#    --config-file=${CMAKE_SOURCE_DIR}/.clang-tidy
+#)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 
-#set(CMAKE_INTERPROCEDURAL_OPTIMIZATION true)
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION true)
 
 add_executable(game
     Animation.cpp
     AssetManager.cpp
     EntityManager.cpp
+    EntityMemoryPool.cpp
     GameEngine.cpp
     Scene.cpp
 

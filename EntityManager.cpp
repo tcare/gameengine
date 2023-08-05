@@ -7,27 +7,27 @@ void EntityManager::Update() {
     }
     for (auto const& entity : entitiesToAdd) {
         entities.push_back(entity);
-        entitiesByTag[entity->GetTag()].push_back(entity);
+        entitiesByTag[entity.GetTag()].push_back(entity);
     }
     entitiesToAdd.clear();
 
     RemoveDeadEntities();
 }
 
-EntityPtr EntityManager::AddEntity(const std::string &tag) {
-    EntityPtr entity = std::make_shared<Entity>(nextId, tag);
+Entity EntityManager::AddEntity(const std::string &tag) {
+    Entity entity = EntityMemoryPool::Instance().AddEntity(tag);
     entitiesToAdd.push_back(entity);
-    SPDLOG_TRACE("Queueing entity {} with tag {} for addition next frame", entity->GetId(), entity->GetTag());
+    SPDLOG_TRACE("Queueing entity {} with tag {} for addition next frame", entity.GetId(), entity.GetTag());
     nextId++;
     return entity;
 }
 
-const EntityVector& EntityManager::GetAllEntities() {
+EntityVector& EntityManager::GetAllEntities() {
     return entities;
 }
 
 void EntityManager::RemoveDeadEntities() {
-    std::erase_if(entities, [](const EntityPtr& entity) {
-        return !entity->IsActive();
+    std::erase_if(entities, [](const Entity& entity) {
+        return !entity.IsActive();
     });
 }

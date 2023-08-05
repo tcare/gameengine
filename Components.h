@@ -5,7 +5,10 @@
 
 // Base class for all components which can be attached to an entity
 class Component {
+public:
     [[nodiscard]] bool Has() const { return has; }
+    void SetHas(bool value) { has = value; }
+private:
     bool has = false;
 };
 
@@ -15,6 +18,15 @@ public:
     [[nodiscard]] sf::Sprite& GetSprite() { return sprite; }
 private:
     sf::Sprite sprite;
+};
+
+class AnimationComponent : public Component {
+public:
+    AnimationComponent(Animation animation) : animation(std::move(animation)) {}
+    [[nodiscard]] Animation& GetAnimation() { return animation; }
+    [[nodiscard]] const Animation& GetAnimation() const { return animation; }
+private:
+    Animation animation;
 };
 
 class TransformComponent : public Component {
@@ -39,12 +51,6 @@ private:
     double rotation;
 };
 
-class AnimationComponent : public Component {
-public:
-    AnimationComponent(Animation animation) : animation(std::move(animation)) {}
-    [[nodiscard]] Animation& GetAnimation() { return animation; }
-private:
-    Animation animation;
-};
-
-using ComponentTuple = std::tuple<TransformComponent, AnimationComponent>;
+using ComponentPool = std::tuple<std::vector<TransformComponent>,
+                                 std::vector<SpriteComponent>,
+                                 std::vector<AnimationComponent>>;

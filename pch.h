@@ -1,5 +1,6 @@
 // STL includes
 #include <memory>
+#include <string>
 
 // External libs
 // Maximum Compile time logging macro level

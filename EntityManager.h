@@ -4,17 +4,16 @@
 
 #include "Entity.h"
 
-using EntityPtr = std::shared_ptr<Entity>;
-using EntityVector = std::vector<EntityPtr>;
+using EntityVector = std::vector<Entity>;
 using EntityMap = std::map<std::string, EntityVector>;
 
 class EntityManager {
 public:
     void Update();
 
-    EntityPtr AddEntity(const std::string& tag = "default");
-    const EntityVector& GetEntitiesByTag(const std::string& tag);
-    const EntityVector& GetAllEntities();
+    Entity AddEntity(const std::string& tag = "default");
+    EntityVector& GetEntitiesByTag(const std::string& tag);
+    EntityVector& GetAllEntities();
 private:
     void RemoveDeadEntities();
 

@@ -21,16 +21,16 @@ TestScene::TestScene()
     sprite.setPosition(300, 300);
     sprite.setTextureRect(sf::IntRect(96,0,96,96));
 
-    const EntityPtr animationEntity = GetEntityManager().AddEntity();
-    animationEntity->sprite = std::make_shared<SpriteComponent>(texture);
+    Entity animationEntity = GetEntityManager().AddEntity();
+    animationEntity.AddCompoment<SpriteComponent>(texture);
     const Animation animation(
         texture,
         sf::Vector2i(96, 96),
         10,
         sf::Vector2i(0, 1),
         4);
-    animationEntity->animation = std::make_shared<AnimationComponent>(animation);
-    animationEntity->animation->GetAnimation().GetSprite().setPosition(500, 500);
+    auto& animationComponent = animationEntity.AddCompoment<AnimationComponent>(animation);
+    animationComponent.GetAnimation().GetSprite().setPosition(500, 500);
 
     RegisterAction(sf::Keyboard::Scan::Escape, Action::Name::QUIT);
     //NOLINTEND(cppcoreguidelines-avoid-magic-numbers)
@@ -39,9 +39,9 @@ TestScene::TestScene()
 void TestScene::Update() {
     GetEntityManager().Update();
 
-    for (auto const& entity : GetEntityManager().GetAllEntities()) {
-        if (entity->animation) {
-            entity->animation->GetAnimation().Update();
+    for (auto& entity : GetEntityManager().GetAllEntities()) {
+        if (entity.HasComponent<AnimationComponent>()) {
+            entity.GetComponent<AnimationComponent>().GetAnimation().Update();
         }
     }
 }
@@ -60,9 +60,10 @@ void TestScene::Render(sf::RenderWindow &window) {
     window.draw(text);
     window.draw(sprite);
 
-    for (auto const& entity : GetEntityManager().GetAllEntities()) {
-        if (entity->animation) {
-            window.draw(entity->animation->GetAnimation().GetSprite());
+    for (auto& entity : GetEntityManager().GetAllEntities()) {
+        if (entity.HasComponent<AnimationComponent>()) {
+            const sf::Sprite& animationSprite = entity.GetComponent<AnimationComponent>().GetAnimation().GetSprite();
+            window.draw(animationSprite);
         }
     }
 }

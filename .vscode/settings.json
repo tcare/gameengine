@@ -64,6 +64,14 @@
         "unordered_map": "cpp",
         "variant": "cpp",
         "vector": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "__std_stream": "cpp",
+        "charconv": "cpp",
+        "condition_variable": "cpp",
+        "list": "cpp",
+        "regex": "cpp",
+        "span": "cpp",
+        "thread": "cpp",
+        "unordered_set": "cpp"
     }
 }
