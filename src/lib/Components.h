@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include "Animation.h"
 
 // Base class for all components which can be attached to an entity

@@ -1,4 +1,5 @@
 #include "CommonDefines.h"
+#include "pch.h"
 
 class Animation {
 public:
