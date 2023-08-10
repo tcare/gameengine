@@ -16,6 +16,7 @@ include(cmake/CompilerOptions.cmake)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 
-set(CMAKE_INTERPROCEDURAL_OPTIMIZATION true)
+#set(CMAKE_INTERPROCEDURAL_OPTIMIZATION true)
+# TODO: on mac with LTO add -Wl,-object_path_lto,lto.o to stop debug info from being stripped
 
 add_subdirectory(src)
