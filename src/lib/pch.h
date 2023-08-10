@@ -11,6 +11,3 @@
 #include <SFML/Graphics.hpp>
 
 #include <assert.hpp>
-
-#include <nlohmann/json.hpp>
-using json = nlohmann::json;

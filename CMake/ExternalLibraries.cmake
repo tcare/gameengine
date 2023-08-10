@@ -46,17 +46,19 @@ set(GAME_EXTERNAL_LIBRARIES
     assert
 )
 
-# nlohmann/json - JSON Library for Tiled maps
-set(JSON_BuildTests OFF CACHE INTERNAL "")
+# tmxlite - Tiled Map Loader
+#set(USE_EXTLIBS TRUE)
+set(TMXLITE_STATIC_LIB TRUE)
 FetchContent_Declare(
-    nlohmann_json
-    GIT_REPOSITORY https://github.com/nlohmann/json.git
-    GIT_TAG v3.11.2
+    tmxlite
+    GIT_REPOSITORY https://github.com/fallahn/tmxlite.git
+    GIT_TAG v1.4.4
 )
-FetchContent_MakeAvailable(nlohmann_json)
+FetchContent_MakeAvailable(tmxlite)
+add_subdirectory(${tmxlite_SOURCE_DIR}/tmxlite)
 set(GAME_EXTERNAL_LIBRARIES
     ${GAME_EXTERNAL_LIBRARIES}
-    nlohmann_json::nlohmann_json
+    ${TMXLITE_LIBRARIES}
 )
 
 # Turn back on deprecation warnings for our code

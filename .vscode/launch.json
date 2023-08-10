@@ -5,17 +5,28 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(lldb) Launch",
+            "name": "(lldb) Launch maptest",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/game",
+            "program": "${workspaceFolder}/build/src/bin/maptest",
             "args": [],
-            "stopAtEntry": false,
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb"
+        },
+        {
+            "name": "(lldb) Launch gamebin",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/src/bin/gamebin",
+            "args": [],
+            "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "lldb"
         }
-
     ]
 }

@@ -5,8 +5,10 @@ add_library(libgame STATIC
     EntityMemoryPool.cpp
     GameEngine.cpp
     Scene.cpp
+    TiledMap.cpp
 
     Scenes/TestScene.cpp
+    Scenes/TiledScene.cpp
 )
 
 # Enable PCH for expensive headers
@@ -17,4 +19,5 @@ target_precompile_headers(libgame
 
 target_link_libraries(libgame
     ${GAME_EXTERNAL_LIBRARIES}
+    tmxlite
 )
