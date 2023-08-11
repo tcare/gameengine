@@ -1,21 +1,27 @@
 #pragma once
 
-#include "Animation.h"
+#include "CommonDefines.h"
+
+#include <string>
 
 class AssetManager {
 public:
-    void LoadAssets();
+    // Singleton
+    AssetManager(AssetManager const&) = delete;
+    void operator=(AssetManager const&) = delete;
+    AssetManager(AssetManager&&) = delete;
+    void operator=(AssetManager&&) = delete;
+    static AssetManager& Instance() {
+        static AssetManager instance;
+        return instance;
+    }
 
-    sf::Texture& GetTexture(std::string name);
-    sf::Font& GetFont(std::string name);
+    AssetManager() = default;
+
+    [[nodiscard]] TexturePtr GetTexture(const std::string& name);
+
+    TexturePtr LoadTexture(const std::string& name, const std::string& path);
+    TexturePtr LoadTexture(const std::string& path) { return LoadTexture(path, path); }
 private:
-    void LoadTexture(std::string name, std::string fileName);
-    void LoadFont(std::string name, std::string fileName);
-    void LoadSprite(std::string name, std::string fileName);
-    void LoadAnimation(std::string name, std::string fileName);
-
-    std::map<std::string, sf::Texture> textures;
-    std::map<std::string, sf::Font> fonts;
-    std::map<std::string, sf::Sprite> sprites;
-    std::map<std::string, Animation> animations;
+    std::map<std::string, TexturePtr> textures;
 };

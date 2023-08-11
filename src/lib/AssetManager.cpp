@@ -1,37 +1,36 @@
 #include "AssetManager.h"
 
-void AssetManager::LoadAssets() {
+#include <filesystem>
 
+TexturePtr AssetManager::GetTexture(const std::string& name) {
+    VERIFY(!name.empty(), "No texture name provided");
+    VERIFY(textures.contains(name), "Trying to use an unloaded texture");
+    return textures[name];
 }
 
-void AssetManager::LoadTexture(std::string name, std::string fileName) {
-    ASSERT(!name.empty(), "No texture name provided");
-    ASSERT(!fileName.empty(), "No texture file name provided");
+TexturePtr AssetManager::LoadTexture(const std::string& name, const std::string& path) {
+    VERIFY(!name.empty(), "No texture name provided");
+    VERIFY(!path.empty(), "No texture file name provided");
 
-    if (textures.find(name) != textures.end()) {
+    if (textures.contains(name)) {
         SPDLOG_WARN("Texture {} already loaded", name);
+        return textures[name];
     }
+
+    VERIFY(std::filesystem::exists(path), "Texture file does not exist");
+
+    auto fileSize = std::filesystem::file_size(path);
+    VERIFY(fileSize != 0, "Texture file is empty");
+    
+    VERIFY(fileSize <= MAX_TEXTURE_SIZE, "Texture file is too large");
 
     sf::Texture texture;
-    if (!texture.loadFromFile(fileName)) {
-        SPDLOG_ERROR("Failed to load texture {}", fileName);
+    if (!texture.loadFromFile(path)) {
+        SPDLOG_ERROR("Failed to load texture {}", path);
+        VERIFY(false, "Failed to load texture");
     } else {
-        textures[name] = texture;
+        textures[name] = std::make_shared<sf::Texture>(std::move(texture));
     }
+    return textures[name];
 }
 
-void AssetManager::LoadFont(std::string name, std::string fileName) {
-    ASSERT(!name.empty(), "No texture name provided");
-    ASSERT(!fileName.empty(), "No texture file name provided");
-
-    if (textures.find(name) != textures.end()) {
-        SPDLOG_WARN("Texture {} already loaded", name);
-    }
-
-    sf::Font font;
-    if (!font.loadFromFile(fileName)) {
-        SPDLOG_ERROR("Failed to load texture {}", fileName);
-    } else {
-        fonts[name] = font;
-    }
-}

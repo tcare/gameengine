@@ -2,10 +2,13 @@
 # External libraries
 #
 
+include(FetchContent)
+
 # We have no control over deprecation warnings in external libraries.
 set(CMAKE_WARN_DEPRECATED OFF CACHE BOOL "" FORCE)
 add_compile_options(-Wno-deprecated-declarations)
 
+# Add external libraries to this variable
 set(GAME_EXTERNAL_LIBRARIES)
 
 # SFML - Rendering Library
@@ -44,19 +47,6 @@ FetchContent_MakeAvailable(assert)
 set(GAME_EXTERNAL_LIBRARIES
     ${GAME_EXTERNAL_LIBRARIES}
     assert
-)
-
-# nlohmann/json - JSON Library for Tiled maps
-set(JSON_BuildTests OFF CACHE INTERNAL "")
-FetchContent_Declare(
-    nlohmann_json
-    GIT_REPOSITORY https://github.com/nlohmann/json.git
-    GIT_TAG v3.11.2
-)
-FetchContent_MakeAvailable(nlohmann_json)
-set(GAME_EXTERNAL_LIBRARIES
-    ${GAME_EXTERNAL_LIBRARIES}
-    nlohmann_json::nlohmann_json
 )
 
 # Turn back on deprecation warnings for our code
