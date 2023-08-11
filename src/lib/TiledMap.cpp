@@ -1,5 +1,8 @@
 #include "TiledMap.h"
 
+#include "AssetManager.h"
+#include "EntityManager.h"
+
 #include <tmxlite/Map.hpp>
 #include <tmxlite/Layer.hpp>
 #include <tmxlite/LayerGroup.hpp>
@@ -30,49 +33,44 @@ void TiledMap::LoadMap(const std::string& path) {
 
     DumpMapInfo();
 
-    // Load textures in tilesets
-    // const auto& tileSets = map.getTilesets();
-    // const auto& layerIDs = layer.getTiles();
-    // std::uint32_t maxID = std::numeric_limits<std::uint32_t>::max();
-    // std::vector<const tmx::Tileset*> usedTileSets;
+    auto& assetMgr = AssetManager::Instance();
 
-    // for (auto i = tileSets.rbegin(); i != tileSets.rend(); ++i)
-    // {
-    //     for (const auto& tile : layerIDs)
-    //     {
-    //         if (tile.ID >= i->getFirstGID() && tile.ID < maxID)
-    //         {
-    //             usedTileSets.push_back(&(*i));
-    //             break;
-    //         }
-    //     }
-    //     maxID = i->getFirstGID();
-    // }
+    // Load tileset textures
+    for (const auto& tileset : map.getTilesets()) {
+        assetMgr.LoadTexture(tileset.getImagePath());
+    }
 
+    // Process layers by loading textures and creating entities
     bool seenBackground = false;
     const auto& layers = map.getLayers();
     for (const auto& layer : layers) {
         switch (layer->getType()) {
             case tmx::Layer::Type::Image: {
-                if (seenBackground) {
-                    throw std::runtime_error("Map has multiple background layers");
-                }
+                ASSERT(!seenBackground, "Map has multiple background layers");
                 seenBackground = true;
+
                 const auto& imageLayer = layer->getLayerAs<tmx::ImageLayer>();
-                bgTexture.loadFromFile(imageLayer.getImagePath());
+                
+                const auto& texture = assetMgr.LoadTexture(imageLayer.getImagePath());
+
+                auto bgEntity = entityMgr.AddEntity("background");
+                bgEntity.AddComponent<SpriteComponent>(*texture);
             }
             break;
+
             case tmx::Layer::Type::Tile: {
                 const auto& tileLayer = layer->getLayerAs<tmx::TileLayer>();
-                const auto& tiles = tileLayer.getTiles();
-                if (tiles.empty()) {
-                    throw std::runtime_error("No chunk support yet");
-                }
-                tileMapLayers.emplace_back(map, tileLayer);
+
+                auto tileEntity = entityMgr.AddEntity("tile");
+                tileEntity.AddComponent<VerticesComponent>(tileLayer.getVertices());
             }
-            break;
+
+            default:
+                continue;
         }
     }
+
+
 }
 
 void TiledMap::DumpMapInfo() {
@@ -183,10 +181,4 @@ void TiledMap::DumpMapInfo() {
             std::cout << "- Type: " << int(prop.getType()) << std::endl;
         }
     }
-}
-
-TiledMap::TileMapLayer::TileMapLayer(const tmx::Map &map, const tmx::TileLayer &layer) {
-    // auto& tilesets = map.getTilesets();
-    // auto& tileset = tilesets[0];
-    // tileset.getImagePath();
 }

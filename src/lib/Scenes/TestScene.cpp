@@ -22,14 +22,14 @@ TestScene::TestScene()
     sprite.setTextureRect(sf::IntRect(96,0,96,96));
 
     Entity animationEntity = GetEntityManager().AddEntity();
-    animationEntity.AddCompoment<SpriteComponent>(texture);
+    animationEntity.AddComponent<SpriteComponent>(texture);
     const Animation animation(
         texture,
         sf::Vector2i(96, 96),
         10,
         sf::Vector2i(0, 1),
         4);
-    auto& animationComponent = animationEntity.AddCompoment<AnimationComponent>(animation);
+    auto& animationComponent = animationEntity.AddComponent<AnimationComponent>(animation);
     animationComponent.GetAnimation().GetSprite().setPosition(500, 500);
 
     RegisterAction(sf::Keyboard::Scan::Escape, Action::Name::QUIT);

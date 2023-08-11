@@ -30,7 +30,7 @@ public:
     template<typename T, typename... TArgs>
     T& AddComponent(EntityId id, TArgs... args) {
         auto& componentVec = std::get<std::vector<T>>(pool);
-        ASSERT(componentVec.size() < id || componentVec[id].Has() == false, "Component already exists");
+        DEBUG_ASSERT(componentVec.size() < id || componentVec[id].Has() == false, "Component already exists");
         componentVec.emplace_back(args...);
         auto& component = componentVec.back();
         component.SetHas(true);
@@ -39,7 +39,7 @@ public:
     template<typename T>
     void RemoveComponent(EntityId id) {
         auto component = GetComponent<T>(id);
-        ASSERT(component.Has() == true, "Component does not exist");
+        DEBUG_ASSERT(component.Has() == true, "Component does not exist");
         component.SetHas(false);
     }
 

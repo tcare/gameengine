@@ -52,6 +52,16 @@ private:
     double rotation;
 };
 
-using ComponentPool = std::tuple<std::vector<TransformComponent>,
-                                 std::vector<SpriteComponent>,
-                                 std::vector<AnimationComponent>>;
+class VerticesComponent : public Component {
+    VerticesComponent() {
+        vertices.setPrimitiveType(sf::Quads);
+    }
+    sf::VertexArray vertices;
+};
+
+using ComponentPool = std::tuple<
+    std::vector<TransformComponent>,
+    std::vector<SpriteComponent>,
+    std::vector<AnimationComponent>,
+    std::vector<VerticesComponent>
+>;

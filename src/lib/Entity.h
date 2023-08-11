@@ -24,7 +24,7 @@ public:
         return EntityMemoryPool::Instance().HasComponent<T>(id);
     }
     template<typename T, typename... TArgs>
-    T& AddCompoment(TArgs... args) {
+    T& AddComponent(TArgs... args) {
         return EntityMemoryPool::Instance().AddComponent<T>(id, std::forward<TArgs>(args)...);
     }
 
@@ -33,3 +33,5 @@ public:
 private:
     EntityId id;
 };
+
+static_assert(sizeof(Entity) == sizeof(EntityId), "Passing around entities should be no worse than passing around entity ids.");

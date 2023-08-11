@@ -4,7 +4,7 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/sinks/basic_file_sink.h>
 
-#include "Scenes/TestScene.h"
+#include "Scenes/TiledScene.h"
 
 GameEngine::GameEngine() {
     InitLogging();
@@ -86,7 +86,7 @@ void GameEngine::Init() {
     window.create(sf::VideoMode(800, 600), "Game Engine"); //NOLINT(cppcoreguidelines-avoid-magic-numbers)
     window.setFramerateLimit(frameRate);
 
-    auto initscene = std::make_shared<TestScene>();
+    auto initscene = std::make_shared<TiledScene>();
     
     ChangeScene("test", initscene);
 }

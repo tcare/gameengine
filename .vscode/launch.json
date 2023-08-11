@@ -6,7 +6,7 @@
     "configurations": [
         {
             "name": "(lldb) Launch maptest",
-            "type": "cppdbg",
+            "type": "lldb",
             "request": "launch",
             "program": "${workspaceFolder}/build/src/bin/maptest",
             "args": [],
@@ -18,7 +18,7 @@
         },
         {
             "name": "(lldb) Launch gamebin",
-            "type": "cppdbg",
+            "type": "lldb",
             "request": "launch",
             "program": "${workspaceFolder}/build/src/bin/gamebin",
             "args": [],

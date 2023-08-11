@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.26)
 project(game VERSION 1.0)
-include(FetchContent)
 
 set(BUILD_SHARED_LIBS OFF)
 

@@ -2,10 +2,13 @@
 # External libraries
 #
 
+include(FetchContent)
+
 # We have no control over deprecation warnings in external libraries.
 set(CMAKE_WARN_DEPRECATED OFF CACHE BOOL "" FORCE)
 add_compile_options(-Wno-deprecated-declarations)
 
+# Add external libraries to this variable
 set(GAME_EXTERNAL_LIBRARIES)
 
 # SFML - Rendering Library
