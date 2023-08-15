@@ -31,6 +31,8 @@ TexturePtr AssetManager::LoadTexture(const std::string& name, const std::string&
     } else {
         textures[name] = std::make_shared<sf::Texture>(std::move(texture));
     }
+
+    SPDLOG_INFO("Loaded texture {} from {} | {}b | {}x{}", name, path, fileSize, texture.getSize().x, texture.getSize().y);
     return textures[name];
 }
 

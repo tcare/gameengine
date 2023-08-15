@@ -6,9 +6,7 @@ TiledScene::TiledScene()
 }
 
 void TiledScene::Update() {
-    // Render background
-
-
+    GetEntityManager().Update();
 }
 
 void TiledScene::HandleAction(Action &action) {
@@ -16,5 +14,14 @@ void TiledScene::HandleAction(Action &action) {
 }
 
 void TiledScene::Render(sf::RenderWindow & window) {
+    auto& entityMgr = GetEntityManager();
+
+    // Render background
+    auto& bgEntity = entityMgr.GetEntitiesByTag("background");
+    for (auto& entity : bgEntity) {
+        ASSERT(bgEntity.size() <= 1, "There should only be one background entity");
+        auto &bgSprite = entity.GetComponent<SpriteComponent>().GetSprite();
+        window.draw(bgSprite);
+    }
     
 }

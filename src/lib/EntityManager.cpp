@@ -22,6 +22,10 @@ Entity EntityManager::AddEntity(const std::string &tag) {
     return entity;
 }
 
+EntityVector &EntityManager::GetEntitiesByTag(const std::string &tag) {
+    return entitiesByTag[tag];
+}
+
 EntityVector& EntityManager::GetAllEntities() {
     return entities;
 }

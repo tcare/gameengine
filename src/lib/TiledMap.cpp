@@ -54,15 +54,14 @@ void TiledMap::LoadMap(const std::string& path) {
                 const auto& texture = assetMgr.LoadTexture(imageLayer.getImagePath());
 
                 auto bgEntity = entityMgr.AddEntity("background");
-                bgEntity.AddComponent<SpriteComponent>(*texture);
+                auto& bgSprite = bgEntity.AddComponent<SpriteComponent>(texture);
+                bgSprite.GetSprite().setScale(1.5f, 1.5f);
+
             }
             break;
 
             case tmx::Layer::Type::Tile: {
                 const auto& tileLayer = layer->getLayerAs<tmx::TileLayer>();
-
-                auto tileEntity = entityMgr.AddEntity("tile");
-                tileEntity.AddComponent<VerticesComponent>(tileLayer.getVertices());
             }
 
             default:

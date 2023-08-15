@@ -15,7 +15,7 @@ private:
 
 class SpriteComponent : public Component {
 public:
-    SpriteComponent(sf::Texture& texture) : sprite(texture) {}
+    SpriteComponent(TexturePtr texture) : sprite(*texture) {}
     [[nodiscard]] sf::Sprite& GetSprite() { return sprite; }
 private:
     sf::Sprite sprite;

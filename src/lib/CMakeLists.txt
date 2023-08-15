@@ -7,7 +7,6 @@ add_library(libgame STATIC
     Scene.cpp
     TiledMap.cpp
 
-    Scenes/TestScene.cpp
     Scenes/TiledScene.cpp
 )
 
